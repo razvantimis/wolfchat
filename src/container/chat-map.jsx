@@ -15,14 +15,13 @@ export default class ChatMap extends Component {
 
   mapRef = createRef()
 
-  handleClick = () => {
-    const map = this.mapRef.current;
-    if (map != null) {
-      map.leafletElement.locate();
-    }
+  handleClick = (e) => {
+    console.log(e.latlng);
+    
   }
 
   handleLocationFound = (e) => {
+    console.log(e.latlng);
     this.setState({
       hasLocation: true,
       latlng: e.latlng
