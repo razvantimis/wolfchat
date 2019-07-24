@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { useSelector } from 'react-redux'
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexDirection: "column",
@@ -21,11 +21,11 @@ const useStyles = makeStyles(theme => ({
 }));
 export const UserAvatarAndName = () => {
   const classes = useStyles();
-
+  const username = useSelector(state => state.user.username);
   return (
     <Grid container spacing={6}>
       <Grid item xs={4}>
-        <Avatar className={classes.avatar}>H</Avatar>
+        <Avatar className={classes.avatar}>{username.substring(0,1).toUpperCase()}</Avatar>
       </Grid>
       <Grid item xs={6} container
         direction="row"
@@ -33,7 +33,7 @@ export const UserAvatarAndName = () => {
         alignItems="center">
 
         <Typography variant="h6" gutterBottom>
-          Your name
+          {username}
           </Typography>
       </Grid>
     </Grid>

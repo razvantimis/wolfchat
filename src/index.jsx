@@ -3,14 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Provider, createStore } from 'react-redux'
-import {configureStore} from 'redux-starter-kit';
-
-const store = configureStore({
-  reducer : {
-      Home : null
-  }
-});
+import { Provider } from 'react-redux'
+import { store } from './redux';
 const rootElement = document.getElementById('root')
 ReactDOM.render(
   <Provider store={store}>

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
-import { UserAvatarAndName } from '../component/user-avatar-and-name';
+import React from 'react';
 import { ChatRoomList } from '../component/chatroom-list';
+import { UserAvatarAndName } from '../component/user-avatar-and-name';
 const useStyles = makeStyles(theme => ({
   root: {
     flexDirection: "column",

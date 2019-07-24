@@ -13,6 +13,7 @@
     "react-scripts": "3.0.1",
     "react-window": "^1.8.5",
     "react-window-infinite-loader": "^1.0.3",
+    "redux-logger": "^3.0.6",
     "redux-starter-kit": "^0.6.2"
   },
   "scripts": {

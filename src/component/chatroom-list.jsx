@@ -1,13 +1,12 @@
-import React, { PureComponent, Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import AddIcon from '@material-ui/icons/Add';
+import React, { Component, PureComponent } from 'react';
 import { FixedSizeList as List } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
-import Card from '@material-ui/core/Card';
 import { ChatRoomSearch } from '../component/chatroom-search';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
 
 
 const LOADING = 1;
