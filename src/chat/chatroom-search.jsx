@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 export function ChatRoomSearch() {
   const classes = useStyles();
-
+ 
   return (
     <Paper className={classes.root}>
       <IconButton className={classes.iconButton} aria-label="Search">

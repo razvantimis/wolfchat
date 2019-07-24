@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 
-#chatting {
+.chatting {
   right: 100px;
   background: red;
   width: 400px;
@@ -13,4 +13,18 @@
   top: 40px;
   z-index: 999;
   display: flex;
+}
+
+.dialog-selecting-coordinates {
+  display: block;
+  position: absolute;
+  top: 18px;
+  padding: 20px;
+  border-radius: 10px;
+  background: white;
+  color: black;
+  font-size: 27px;
+  z-index: 999;
+  margin: auto;
+  left: 10%;
 }

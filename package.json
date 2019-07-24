@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",
+    "flow-bin": "^0.103.0",
     "leaflet": "^1.5.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -12,14 +13,16 @@
     "react-redux": "^7.1.0",
     "react-scripts": "3.0.1",
     "react-window": "^1.8.5",
-    "react-window-infinite-loader": "^1.0.3",
     "redux-logger": "^3.0.6",
-    "redux-starter-kit": "^0.6.2"
+    "redux-persist": "^5.10.0",
+    "redux-starter-kit": "^0.6.2",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "flow": "flow",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

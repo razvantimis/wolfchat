@@ -1,10 +1,10 @@
-import React, { Component, } from 'react';
-import { StartChat } from '../component/start-chat'
-import { ChatRoom } from '../component/chatroom'
+import React from 'react';
+import { StartChat } from './start-chat'
+import { ChatRoom } from './chatroom'
 import { useSelector } from 'react-redux'
 import { START_CHAT, CHAT_ROOM } from '../redux/user';
 
-export default function Chatting() {
+export function Chatting() {
   const step = useSelector(state => state.user.step);
 
   switch (step) {
