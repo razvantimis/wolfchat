@@ -6,11 +6,15 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import { store, persistor } from './redux';
 import { PersistGate } from 'redux-persist/integration/react'
+import { FirebaseApi } from './api/firebase';
 const rootElement = document.getElementById('root')
+
+FirebaseApi.initConfig();
+
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-    <App />
+      <App />
     </PersistGate>
   </Provider>,
   rootElement);

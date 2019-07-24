@@ -1,16 +1,9 @@
 // @flow
 import { createSlice } from 'redux-starter-kit';
+import type { Chatroom } from './room';
 export const [SELECTING_COORDINATES, STANDBY, CREATE_NEW_CHAT_ROOM] = ["SELECTING_COORDINATES", "STANDBY", "CREATE_NEW_CHAT_ROOM"];
 
-type Coordinates = {
-  lat: number,
-  lng: number
-}
-export type Chatroom = {
-  name: string,
-  coordinates: Coordinates
-}
-type state = { step: string, chatroomList: Chatroom[], selectedCoordinates?: Coordinates  }
+type state = { step: string, chatroomList: Chatroom[], selectedCoordinates?: Coordinates }
 const initialState: state = { step: STANDBY, chatroomList: [] };
 const userSlice = createSlice({
   slice: 'chat',
@@ -25,15 +18,11 @@ const userSlice = createSlice({
       selectedCoordinates: action.payload.latlng,
       step: CREATE_NEW_CHAT_ROOM
     }),
-    createChat: (state, action) => ({
-      ...initialState,
-      chatroomList: [...state.chatroomList, action.payload.newChatroom],
-      
-    }),
     resetState: (state, action) => initialState
   }
 });
 
 
 export const { actions, reducer } = userSlice;
-export const { startSelectionCoordinates, selectedCoordinates, resetState,createChat } = actions;
+export const { startSelectionCoordinates, selectedCoordinates, resetState } = actions;
+

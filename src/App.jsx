@@ -4,7 +4,6 @@ import { Chatting } from './chat/chatting';
 import { NewChatroomDialog } from './chat/new-chatroom-dialog';
 import { SELECTING_COORDINATES, CREATE_NEW_CHAT_ROOM } from './redux/chat';
 import { useSelector } from 'react-redux';
-
 import './App.css';
 
 function App() {

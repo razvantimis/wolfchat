@@ -8,10 +8,10 @@ import { useDispatch } from 'react-redux';
 import { FixedSizeList as List } from "react-window";
 import { ChatRoomSearch } from './chatroom-search';
 import { startSelectionCoordinates } from '../redux/chat';
-import type { Chatroom } from '../redux/chat';
+import type { Chatroom } from '../redux/room';
 import { useSelector } from 'react-redux';
 
-function Row({index, data}) {
+function Row({ index, data }) {
   const chatroom: Chatroom = data[index];
   return (
     <ListItem button key={index}>
@@ -44,7 +44,8 @@ export function ChatRoomList() {
     () => dispatch(startSelectionCoordinates()),
     [dispatch]
   )
-  const chatroomList = useSelector(state => state.chat.chatroomList);
+ 
+  const chatroomList = useSelector(state => state.room.list);
   return (
     <Card style={styles.root}>
       <div style={styles.search}>

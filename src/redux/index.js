@@ -1,5 +1,6 @@
 import {reducer as userReducer} from './user';
 import {reducer as chatReducer} from './chat';
+import {reducer as roomReducer} from './room';
 import {configureStore} from 'redux-starter-kit';
 import logger from 'redux-logger';
 import { persistStore,persistReducer } from 'redux-persist'
@@ -15,7 +16,8 @@ const persistConfig = {
 }
 const reducers = combineReducers({
   user: userReducer,
-  chat: chatReducer
+  chat: chatReducer,
+  room: roomReducer,
 });
 const persistedReducer = persistReducer(persistConfig, reducers)
 export const store = configureStore({

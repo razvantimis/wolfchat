@@ -1,12 +1,16 @@
 
+// @flow
 import React, { useState, useCallback } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { SELECTING_COORDINATES } from '../redux/chat';
 import { useDispatch } from 'react-redux'
 import { selectedCoordinates } from '../redux/chat'
+import type { Chatroom } from '../redux/room'
 export function ChatMap() {
   const chatStep = useSelector(state => state.chat.step);
+  const chatroomList: Chatroom[] = useSelector(state => state.room.list);
+
   const [hasLocation, setHasLocation] = useState(false)
   const [latlng, setLatlng] = useState({
     lat: 46.7712,
@@ -23,7 +27,7 @@ export function ChatMap() {
       setHasLocation(true);
       setLatlng(latlng);
       onSelectedCoordinates(latlng);
-    } 
+    }
   }
   const handleLocationFound = ({ latlng }) => {
     console.log(latlng);
@@ -48,6 +52,9 @@ export function ChatMap() {
         url="http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png"
       />
       {marker}
+      {chatroomList.map((chatroom, index) => <Marker key={index} position={chatroom.coordinates}>
+        <Popup>{chatroom.name}</Popup>
+      </Marker>)}
     </Map>
   );
 

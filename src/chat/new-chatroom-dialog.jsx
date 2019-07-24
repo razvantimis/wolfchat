@@ -9,8 +9,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetState as resetStateAction, createChat as creatChatAction } from '../redux/chat';
-import type { Chatroom } from '../redux/chat';
+import { resetState as resetStateAction } from '../redux/chat';
+import { createChatRoom } from '../redux/room';
+import type { Chatroom } from '../redux/room';
 
 export function NewChatroomDialog() {
   const { lat, lng } = useSelector(state => state.chat.selectedCoordinates);
@@ -21,7 +22,7 @@ export function NewChatroomDialog() {
   )
 
   const createChatDispatch = useCallback(
-    (chatroom) => dispatch(creatChatAction(chatroom)),
+    (chatroom) => dispatch(createChatRoom(chatroom)),
     [dispatch]
   )
   const [chatName, setChatName] = useState('');
@@ -31,7 +32,8 @@ export function NewChatroomDialog() {
       name: chatName,
       coordinates: { lat, lng }
     }
-    createChatDispatch({newChatroom});
+    createChatDispatch(newChatroom);
+    resetStateDispatch();
   }
 
   return (
