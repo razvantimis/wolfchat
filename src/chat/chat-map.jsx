@@ -6,13 +6,13 @@ import { useSelector } from 'react-redux';
 import { SELECTING_COORDINATES } from '../redux/chat';
 import { useDispatch } from 'react-redux'
 import { selectedCoordinates } from '../redux/chat'
-import { selectedRoom as selectedRoomAction } from '../redux/room';
+import { selectedRoom as selectedRoomAction, getRoomListFromState } from '../redux/room';
 import { goToRoom as goToRoomAction } from '../redux/chat';
 import type { Chatroom } from '../redux/room'
 
 export function ChatMap() {
   const chatStep = useSelector(state => state.chat.step);
-  const chatroomList: Chatroom[] = useSelector(state => Object.values(state.room.list));
+  const chatroomList: Chatroom[] = useSelector(getRoomListFromState);
 
   const [hasLocation, setHasLocation] = useState(false)
   const [latlng, setLatlng] = useState({

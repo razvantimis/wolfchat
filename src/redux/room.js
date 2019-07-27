@@ -22,8 +22,8 @@ export type Chatroom = {
 }
 type IdMapChatRoom = { [id: string]: Chatroom };
 
-type state = { list: IdMapChatRoom, selectedRoomId: string }
-const initialState: state = { list: {}, selectedRoom: null };
+type state = { list: IdMapChatRoom, selectedRoomId?: string, filterIds: string[], searchName?: string }
+const initialState: state = { list: {}, filterIds: [] };
 const roomSlice = createSlice({
   slice: 'room',
   initialState,
@@ -63,11 +63,21 @@ const roomSlice = createSlice({
         return state;
       }
     },
+    searchRoomByName: (state, action) => {
+      const searchName: string = action.payload.searchName;
+      const filterIds = Object.values(state.list).filter(room => room.name.includes(searchName.toLowerCase())).map(r => r.id);
+
+      return {
+        ...state,
+        filterIds,
+        searchName
+      }
+    }
   }
 });
 
 export const { actions, reducer } = roomSlice;
-export const { resetState, fetchRoomListStarted, fetchRoomListSucceeded } = actions;
+export const { resetState, fetchRoomListStarted, fetchRoomListSucceeded, searchRoomByName } = actions;
 // action thunk
 export const createChatRoom = (chatroom: Chatroom) => async (dispatch: any, getState: any) => {
   const newRoom = await FirebaseApi.createRoom(chatroom);
@@ -111,4 +121,14 @@ export const deselectRoom = () => async (dispatch: any, getState: () => any) => 
     subListenOnMessageFromRoom.unsubscribe();
   }
   dispatch(actions.deselectRoom());
+}
+
+// selectors
+
+export const getRoomListFromState = (state) => {
+  if (!!state.room.searchName) {
+    return state.room.filterIds.map(id => state.room.list[id]);
+  } else {
+    return Object.values(state.room.list)
+  }
 }

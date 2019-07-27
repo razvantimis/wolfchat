@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-
+import { useDispatch } from 'react-redux';
+import { searchRoomByName as searchRoomByNameAction } from '../redux/room';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 const useStyles = makeStyles({
   root: {
     padding: '2px 4px',
@@ -23,16 +25,34 @@ const useStyles = makeStyles({
 
 export function ChatRoomSearch() {
   const classes = useStyles();
- 
+
+  const [searchName, setSearchName] = useState('');
+
+  const dispatch = useDispatch()
+  const searchRoomHandler = useCallback(
+    (searchName) => dispatch(searchRoomByNameAction({ searchName })),
+    [dispatch]
+  )
+  const searchRoom = AwesomeDebouncePromise(
+    searchRoomHandler,
+    800,
+  );
+
   return (
     <Paper className={classes.root}>
-      <IconButton className={classes.iconButton} aria-label="Search">
+      <IconButton className={classes.iconButton} aria-label="Search" onClick={() => searchRoom(searchName)}>
         <SearchIcon />
       </IconButton>
       <InputBase
         className={classes.input}
         placeholder="Search rooms"
         inputProps={{ 'aria-label': 'Search Google Maps' }}
+        value={searchName}
+        onChange={e => {
+          setSearchName(e.target.value);
+          searchRoom(e.target.value)
+        }}
+        onKeyDown={e => searchRoom(searchName)}
       />
 
     </Paper>

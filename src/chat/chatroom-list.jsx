@@ -9,7 +9,7 @@ import List from '@material-ui/core/List';
 import { ChatRoomSearch } from './chatroom-search';
 import { startSelectionCoordinates } from '../redux/chat';
 import type { Chatroom } from '../redux/room';
-import { selectedRoom as selectedRoomAction } from '../redux/room';
+import { selectedRoom as selectedRoomAction, getRoomListFromState } from '../redux/room';
 import { goToRoom as goToRoomAction } from '../redux/chat';
 import { useSelector } from 'react-redux';
 
@@ -41,8 +41,8 @@ const styles = {
     height: 400
   },
   nothingToShow: {
-    fontSize: 20,
-    padding: 25
+    fontSize: 18,
+    padding: 20
   },
   list: {
     width: '100%',
@@ -63,7 +63,7 @@ export function ChatRoomList() {
     () => dispatch(startSelectionCoordinates()),
     [dispatch]
   );
-  const chatroomList = useSelector(state => Object.values(state.room.list));
+  const chatroomList = useSelector(getRoomListFromState);
 
   return (
     <Card style={styles.root}>
