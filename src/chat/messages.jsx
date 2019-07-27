@@ -1,12 +1,15 @@
+// @flow
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import React, { useCallback, useState } from 'react';
-import { ChatFeed, Message } from 'react-chat-ui';
-import { useDispatch } from 'react-redux';
-import { resetState as resetStateAction } from '../redux/chat';
+import { ChatFeed } from 'react-chat-ui';
+import { batch, useDispatch, useSelector } from 'react-redux';
+import { resetState as resetChatStateAction } from '../redux/chat';
+import { deselectRoom as deselectRoomAction, sendMessage as sendMessageAction } from '../redux/room';
+import type { Chatroom } from '../redux/room';
 
 const bubbleStyles = {
   text: {
@@ -48,42 +51,40 @@ const useStyles = makeStyles(theme => ({
 
 }));
 export function Messages() {
-  // const step = useSelector(state => state.user.step);
-
-  const messages = [
-    new Message({
-      id: 1,
-      senderName: 'Razvan',
-      message: "I'm the recipient",
-    }), // Gray bubble
-    new Message({
-      id: 0, message: "I'm you -- the blue bubble!",
-      senderName: 'Mihai',
-    }), // Blue bubble
-  ];
   const classes = useStyles();
-
+  const selectedRoom: Chatroom = useSelector(state => state.room.selectedRoom);
   // state
   const [msg, setMsg] = useState('');
+
   // Functions
   const dispatch = useDispatch()
   const onBack = useCallback(
-    () => dispatch(resetStateAction()),
+    () => {
+      batch(() => {
+        dispatch(resetChatStateAction())
+        dispatch(deselectRoomAction());
+      });
+    },
     [dispatch]
-  )
-  const sendMsg = (msg) => {
-    console.log(msg);
-  }
+  );
+  const sendMsg = useCallback(
+    (msg) => {
+      dispatch(sendMessageAction(msg));
+      setMsg('');
+    },
+    [dispatch]
+  );
+
 
   return (<div className={classes.root}>
     <div className={classes.header}>
       <IconButton aria-label="Add" onClick={onBack}>
         <BackIcon />
       </IconButton>
-      <span className={classes.title}>Room 1</span>
+      <span className={classes.title}>{selectedRoom.name}</span>
     </div>
     <ChatFeed
-      messages={messages} // Boolean: list of message objects
+      messages={selectedRoom.messages} // Boolean: list of message objects
       showSenderName // show the name of the user who sent the message
       // JSON: Custom bubble styles
       bubbleStyles={

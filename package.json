@@ -18,7 +18,10 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
     "redux-starter-kit": "^0.6.2",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rxfire": "^3.6.8",
+    "rxjs": "^6.5.2",
+    "rxjs-hooks": "^0.5.1"
   },
   "scripts": {
     "start": "react-scripts start",

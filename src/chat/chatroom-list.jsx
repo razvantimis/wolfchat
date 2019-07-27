@@ -10,16 +10,16 @@ import { ChatRoomSearch } from './chatroom-search';
 import { startSelectionCoordinates } from '../redux/chat';
 import type { Chatroom } from '../redux/room';
 import { selectedRoom as selectedRoomAction } from '../redux/room';
-import { joinRoom as joinRoomAction } from '../redux/chat';
+import { goToRoom as goToRoomAction } from '../redux/chat';
 import { useSelector } from 'react-redux';
-
 function Row({ index, data }) {
   const chatroom: Chatroom = data[index];
   const dispatch = useDispatch()
   const selectedRoom = useCallback(
     (selectedRoom) => {
-      dispatch(selectedRoomAction({ selectedRoom }));
-      dispatch(joinRoomAction());
+      dispatch(selectedRoomAction(selectedRoom)).then(_ => {
+        dispatch(goToRoomAction());
+      });
     },
     [dispatch]
   );

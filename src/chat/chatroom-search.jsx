@@ -31,7 +31,7 @@ export function ChatRoomSearch() {
       </IconButton>
       <InputBase
         className={classes.input}
-        placeholder="Search ChatRooms"
+        placeholder="Search rooms"
         inputProps={{ 'aria-label': 'Search Google Maps' }}
       />
 

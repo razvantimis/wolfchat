@@ -2,7 +2,8 @@
 import * as firebase from "firebase";
 import 'firebase/firestore';
 import { firebaseConfig } from "../config";
-import type { Chatroom } from '../redux/room';
+import { collectionData } from 'rxfire/firestore';
+import type { Chatroom, Message } from '../redux/room';
 export class FirebaseApi {
   static initConfig() {
     firebase.initializeApp(firebaseConfig);
@@ -10,7 +11,12 @@ export class FirebaseApi {
 
   static async fetchRoomList(): Promise<Chatroom[]> {
     const snapshot = await firebase.firestore().collection("chats").get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), messages: [] }));
+  }
+
+  static listenOnMessageFromRoom(selectedRoom: Chatroom) {
+    const ref = firebase.firestore().collection("chats").doc(selectedRoom.id).collection('messages').orderBy('timestamp', 'asc');
+    return collectionData(ref, '_id');
   }
   static async createRoom(chatRoom: Chatroom) {
     let room = {
@@ -24,24 +30,18 @@ export class FirebaseApi {
   }
 
 
-  static async sendMessage(text, user, roomId) {
+  static async sendMessage(selectedRoom: Chatroom, message: Message) {
+    let messageForSave = {
+      ...message,
+      timestamp: Date.now()
+    }
 
-    let msg = {
-      text: text,
-      timestamp: Date.now(),
-      name: user.email
-    };
-    const newMsgRef = await firebase
-      .database()
-      .ref("messages/" + roomId + "/")
-      .push();
-    msg.id = newMsgRef.key;
-    newMsgRef.set(msg);
-    return msg;
-
+    const newMessageRef = firebase.firestore().collection("chats").doc(selectedRoom.id).collection('messages').doc();
+    await newMessageRef.set(messageForSave);
+    return message;
   }
 
 
- 
+
 }
 
