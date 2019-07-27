@@ -5,7 +5,6 @@
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",
-    "awesome-debounce-promise": "^2.1.0",
     "firebase": "^6.3.1",
     "flow-bin": "^0.103.0",
     "leaflet": "^1.5.1",

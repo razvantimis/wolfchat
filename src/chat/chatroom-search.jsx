@@ -6,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import { useDispatch } from 'react-redux';
 import { searchRoomByName as searchRoomByNameAction } from '../redux/room';
-import AwesomeDebouncePromise from 'awesome-debounce-promise';
 const useStyles = makeStyles({
   root: {
     padding: '2px 4px',
@@ -29,14 +28,11 @@ export function ChatRoomSearch() {
   const [searchName, setSearchName] = useState('');
 
   const dispatch = useDispatch()
-  const searchRoomHandler = useCallback(
+  const searchRoom = useCallback(
     (searchName) => dispatch(searchRoomByNameAction({ searchName })),
     [dispatch]
   )
-  const searchRoom = AwesomeDebouncePromise(
-    searchRoomHandler,
-    800,
-  );
+
 
   return (
     <Paper className={classes.root}>
@@ -50,9 +46,12 @@ export function ChatRoomSearch() {
         value={searchName}
         onChange={e => {
           setSearchName(e.target.value);
-          searchRoom(e.target.value)
         }}
-        onKeyDown={e => searchRoom(searchName)}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            searchRoom(searchName)
+          }
+        }}
       />
 
     </Paper>

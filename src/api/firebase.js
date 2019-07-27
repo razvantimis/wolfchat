@@ -10,7 +10,7 @@ export class FirebaseApi {
   }
 
   static async fetchRoomList(): Promise<Chatroom[]> {
-    const snapshot = await firebase.firestore().collection("chats").get();
+    const snapshot = await firebase.firestore().collection("chats").orderBy('timestamp', 'desc').get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), messages: [] }));
   }
 

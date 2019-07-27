@@ -83,6 +83,11 @@ export function Messages() {
         margin="normal"
         value={msg}
         onChange={e => setMsg(e.target.value)}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            sendMsg(msg)
+          }
+        }}
       />
       <Button variant="contained" color="primary" onClick={() => sendMsg(msg)}>
         Send

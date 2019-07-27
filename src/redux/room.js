@@ -30,7 +30,7 @@ const roomSlice = createSlice({
   reducers: {
     createChatroom: (state, action) => ({
       ...state,
-      list: { ...state.list, [action.payload.newRoom.id]: action.payload.newRoom },
+      list: { [action.payload.newRoom.id]: action.payload.newRoom, ...state.list },
     }),
     resetState: (state, action) => initialState,
     fetchRoomListStarted: (state, action) => ({ ...state, isLoading: true }),
@@ -78,6 +78,7 @@ const roomSlice = createSlice({
 
 export const { actions, reducer } = roomSlice;
 export const { resetState, fetchRoomListStarted, fetchRoomListSucceeded, searchRoomByName } = actions;
+
 // action thunk
 export const createChatRoom = (chatroom: Chatroom) => async (dispatch: any, getState: any) => {
   const newRoom = await FirebaseApi.createRoom(chatroom);
