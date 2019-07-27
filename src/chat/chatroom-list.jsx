@@ -5,15 +5,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import AddIcon from '@material-ui/icons/Add';
 import { useDispatch } from 'react-redux';
-import { FixedSizeList as List } from "react-window";
+import List from '@material-ui/core/List';
 import { ChatRoomSearch } from './chatroom-search';
 import { startSelectionCoordinates } from '../redux/chat';
 import type { Chatroom } from '../redux/room';
 import { selectedRoom as selectedRoomAction } from '../redux/room';
 import { goToRoom as goToRoomAction } from '../redux/chat';
 import { useSelector } from 'react-redux';
-function Row({ index, data }) {
-  const chatroom: Chatroom = data[index];
+
+function Row({ room }) {
+  const chatroom: Chatroom = room;
   const dispatch = useDispatch()
   const selectedRoom = useCallback(
     (selectedRoom) => {
@@ -23,9 +24,9 @@ function Row({ index, data }) {
     },
     [dispatch]
   );
-
+  console.log(chatroom)
   return (
-    <ListItem button key={index} onClick={() => selectedRoom(chatroom)}>
+    <ListItem button key={chatroom.id} onClick={() => selectedRoom(chatroom)}>
       <ListItemText
         primary={chatroom.name}
         secondary={`Latitude: ${chatroom.coordinates.lat.toFixed(2)}, Longitude: ${chatroom.coordinates.lng.toFixed(2)}`}
@@ -33,15 +34,23 @@ function Row({ index, data }) {
     </ListItem>
   )
 }
+
 const styles = {
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: 300
+    height: 400
   },
   nothingToShow: {
     fontSize: 20,
     padding: 25
+  },
+  list: {
+    width: '100%',
+    maxWidth: 360,
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 300,
   },
   search: {
     padding: 15,
@@ -57,6 +66,7 @@ export function ChatRoomList() {
   )
 
   const chatroomList = useSelector(state => state.room.list);
+  console.log(chatroomList)
   return (
     <Card style={styles.root}>
       <div style={styles.search}>
@@ -67,15 +77,9 @@ export function ChatRoomList() {
       </div>
 
       {chatroomList.length > 0 ?
-        <List
-          className="List"
-          height={300}
-          itemCount={chatroomList.length}
-          itemSize={10}
-          itemData={chatroomList}
-          width={350}
+        <List style={styles.list}
         >
-          {Row}
+          {chatroomList.map(c => (<Row room={c}></Row>))}
         </List>
         :
         <span style={styles.nothingToShow}>Nothing to show here.<br /> Use the + button to create a new chat</span>}
