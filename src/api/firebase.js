@@ -14,8 +14,8 @@ export class FirebaseApi {
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), messages: [] }));
   }
 
-  static listenOnMessageFromRoom(selectedRoom: Chatroom) {
-    const ref = firebase.firestore().collection("chats").doc(selectedRoom.id).collection('messages').orderBy('timestamp', 'asc');
+  static listenOnMessageFromRoom(selectedRoomId: string) {
+    const ref = firebase.firestore().collection("chats").doc(selectedRoomId).collection('messages').orderBy('timestamp', 'asc');
     return collectionData(ref, 'id');
   }
   static async createRoom(chatRoom: Chatroom) {
@@ -30,13 +30,13 @@ export class FirebaseApi {
   }
 
 
-  static async sendMessage(selectedRoom: Chatroom, message: Message) {
+  static async sendMessage(selectedRoomId: string, message: Message) {
     let messageForSave = {
       ...message,
       timestamp: Date.now()
     }
 
-    const newMessageRef = firebase.firestore().collection("chats").doc(selectedRoom.id).collection('messages').doc();
+    const newMessageRef = firebase.firestore().collection("chats").doc(selectedRoomId).collection('messages').doc();
     await newMessageRef.set(messageForSave);
     return message;
   }

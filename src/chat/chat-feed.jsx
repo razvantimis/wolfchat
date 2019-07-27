@@ -44,7 +44,7 @@ function ChatItem({ message }: { message: Message }) {
   </div>);
 }
 
-export function ChatFeed({ messages }) {
+export function ChatFeed({ messages }: { messages: Message[] }) {
   const classes = useStyles();
   const messageList = useRef(null);
 
@@ -58,8 +58,10 @@ export function ChatFeed({ messages }) {
 };
 
 function scrollToBottom(current) {
+  if (!current) return;
   const scrollHeight = current.scrollHeight;
   const height = current.clientHeight;
   const maxScrollTop = scrollHeight - height;
-  ReactDOM.findDOMNode(current).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+  const node: any = ReactDOM.findDOMNode(current);
+  if (node) node.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
 }

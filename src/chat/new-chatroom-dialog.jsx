@@ -29,6 +29,7 @@ export function NewChatroomDialog() {
 
   const createChat = () => {
     const newChatroom: Chatroom = {
+      id: '',
       name: chatName,
       coordinates: { lat, lng },
       messages: []

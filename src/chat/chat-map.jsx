@@ -12,7 +12,7 @@ import type { Chatroom } from '../redux/room'
 
 export function ChatMap() {
   const chatStep = useSelector(state => state.chat.step);
-  const chatroomList: Chatroom[] = useSelector(state => state.room.list);
+  const chatroomList: Chatroom[] = useSelector(state => Object.values(state.room.list));
 
   const [hasLocation, setHasLocation] = useState(false)
   const [latlng, setLatlng] = useState({

@@ -63,7 +63,7 @@ export function ChatRoomList() {
     () => dispatch(startSelectionCoordinates()),
     [dispatch]
   );
-  const chatroomList = useSelector(state => state.room.list);
+  const chatroomList = useSelector(state => Object.values(state.room.list));
 
   return (
     <Card style={styles.root}>

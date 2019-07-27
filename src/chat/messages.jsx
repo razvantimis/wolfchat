@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 export function Messages() {
   const classes = useStyles();
-  const selectedRoom: Chatroom = useSelector(state => state.room.selectedRoom);
+  const selectedRoom: Chatroom = useSelector(state => state.room.list[state.room.selectedRoomId]);
   // state
   const [msg, setMsg] = useState('');
 
