@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChatMap } from './map/chat-map';
+import { ChatMap } from './chat/chat-map';
 import { ChatBox } from './chat/chat-box';
 import { NewChatroomDialog } from './chat/new-chatroom-dialog';
 import { SELECTING_COORDINATES, CREATE_NEW_CHAT_ROOM } from './redux/chat';

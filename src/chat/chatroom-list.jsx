@@ -24,7 +24,6 @@ function Row({ room }) {
     },
     [dispatch]
   );
-  console.log(chatroom)
   return (
     <ListItem button key={chatroom.id} onClick={() => selectedRoom(chatroom)}>
       <ListItemText
@@ -63,10 +62,9 @@ export function ChatRoomList() {
   const onStartSelectingCoordinates = useCallback(
     () => dispatch(startSelectionCoordinates()),
     [dispatch]
-  )
-
+  );
   const chatroomList = useSelector(state => state.room.list);
-  console.log(chatroomList)
+
   return (
     <Card style={styles.root}>
       <div style={styles.search}>
@@ -79,7 +77,7 @@ export function ChatRoomList() {
       {chatroomList.length > 0 ?
         <List style={styles.list}
         >
-          {chatroomList.map(c => (<Row room={c}></Row>))}
+          {chatroomList.map(room => (<Row key={room.id} room={room}></Row>))}
         </List>
         :
         <span style={styles.nothingToShow}>Nothing to show here.<br /> Use the + button to create a new chat</span>}

@@ -31,6 +31,7 @@ export function NewChatroomDialog() {
     const newChatroom: Chatroom = {
       name: chatName,
       coordinates: { lat, lng },
+      messages: []
     }
     createChatDispatch(newChatroom);
     resetStateDispatch();

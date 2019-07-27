@@ -6,7 +6,10 @@ import { useSelector } from 'react-redux';
 import { SELECTING_COORDINATES } from '../redux/chat';
 import { useDispatch } from 'react-redux'
 import { selectedCoordinates } from '../redux/chat'
+import { selectedRoom as selectedRoomAction } from '../redux/room';
+import { goToRoom as goToRoomAction } from '../redux/chat';
 import type { Chatroom } from '../redux/room'
+
 export function ChatMap() {
   const chatStep = useSelector(state => state.chat.step);
   const chatroomList: Chatroom[] = useSelector(state => state.room.list);
@@ -22,17 +25,20 @@ export function ChatMap() {
     (latlng) => dispatch(selectedCoordinates({ latlng })),
     [dispatch]
   );
+  const selectedRoom = useCallback(
+    (selectedRoom) => {
+      dispatch(selectedRoomAction(selectedRoom)).then(_ => {
+        dispatch(goToRoomAction());
+      });
+    },
+    [dispatch]
+  );
   const onMapClick = ({ latlng }) => {
     if (chatStep === SELECTING_COORDINATES) {
       setHasLocation(true);
       setLatlng(latlng);
       onSelectedCoordinates(latlng);
     }
-  }
-  const handleLocationFound = ({ latlng }) => {
-    console.log(latlng);
-    setHasLocation(true);
-    setLatlng(latlng)
   }
 
   const marker = hasLocation ? (
@@ -45,15 +51,14 @@ export function ChatMap() {
     <Map
       center={latlng}
       onClick={onMapClick}
-      onLocationfound={handleLocationFound}
       zoom={5}
     >
       <TileLayer
         url="http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png"
       />
       {marker}
-      {chatroomList.map((chatroom, index) => <Marker key={index} position={chatroom.coordinates}>
-        <Popup>{chatroom.name}</Popup>
+      {chatroomList.map((room, index) => <Marker key={room.id} position={room.coordinates} onClick={() => selectedRoom(room)}>
+        <Popup>{room.name}</Popup>
       </Marker>)}
     </Map>
   );
