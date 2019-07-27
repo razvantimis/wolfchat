@@ -11,8 +11,8 @@ export type Chatroom = {
   coordinates: Coordinates,
   timestamp?: Date
 }
-type state = { list: Chatroom[] }
-const initialState: state = { list: [] };
+type state = { list: Chatroom[], selectedRoom: Chatroom }
+const initialState: state = { list: [], selectedRoom: null };
 const roomSlice = createSlice({
   slice: 'room',
   initialState,
@@ -24,12 +24,13 @@ const roomSlice = createSlice({
     resetState: (state, action) => initialState,
     fetchRoomListStarted: (state, action) => ({ ...state, isLoading: true }),
     fetchRoomListSucceeded: (state, action) => ({ ...state, isLoading: false, list: action.payload.roomList }),
+    selectedRoom: (state, action) => ({ ...state, selectedRoom: action.payload.selectedRoom }),
   }
 });
 
 
 export const { actions, reducer } = roomSlice;
-export const { resetState, fetchRoomListStarted, fetchRoomListSucceeded } = actions;
+export const { resetState, fetchRoomListStarted, fetchRoomListSucceeded, selectedRoom } = actions;
 // action thunk
 export const createChatRoom = (chatroom: Chatroom) => async (dispatch: any, getState: any) => {
   const newRoom = await FirebaseApi.createRoom(chatroom);

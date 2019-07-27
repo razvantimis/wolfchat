@@ -9,12 +9,23 @@ import { FixedSizeList as List } from "react-window";
 import { ChatRoomSearch } from './chatroom-search';
 import { startSelectionCoordinates } from '../redux/chat';
 import type { Chatroom } from '../redux/room';
+import { selectedRoom as selectedRoomAction } from '../redux/room';
+import { joinRoom as joinRoomAction } from '../redux/chat';
 import { useSelector } from 'react-redux';
 
 function Row({ index, data }) {
   const chatroom: Chatroom = data[index];
+  const dispatch = useDispatch()
+  const selectedRoom = useCallback(
+    (selectedRoom) => {
+      dispatch(selectedRoomAction({ selectedRoom }));
+      dispatch(joinRoomAction());
+    },
+    [dispatch]
+  );
+
   return (
-    <ListItem button key={index}>
+    <ListItem button key={index} onClick={() => selectedRoom(chatroom)}>
       <ListItemText
         primary={chatroom.name}
         secondary={`Latitude: ${chatroom.coordinates.lat.toFixed(2)}, Longitude: ${chatroom.coordinates.lng.toFixed(2)}`}
@@ -44,7 +55,7 @@ export function ChatRoomList() {
     () => dispatch(startSelectionCoordinates()),
     [dispatch]
   )
- 
+
   const chatroomList = useSelector(state => state.room.list);
   return (
     <Card style={styles.root}>

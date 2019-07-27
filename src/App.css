@@ -4,10 +4,10 @@
   margin: 0 auto;
 }
 
-.chatting {
+.chat-box {
   right: 100px;
   background: red;
-  width: 400px;
+  min-width: 400px;
   min-height: 300px;
   position: absolute;
   top: 40px;

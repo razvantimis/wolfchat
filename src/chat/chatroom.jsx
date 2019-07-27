@@ -5,6 +5,9 @@ import { ChatRoomList } from './chatroom-list';
 import { UserAvatarAndName } from './user-avatar-and-name';
 import { fetchRoomList as fetchRoomListAction } from '../redux/room';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { JOIN_ROOM } from '../redux/chat';
+import { Messages } from './messages';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,18 +26,19 @@ const useStyles = makeStyles(theme => ({
 export const ChatRoom = () => {
   const classes = useStyles();
   const dispatch = useDispatch()
-
+  const chatStep = useSelector(state => state.chat.step);
   const fetchRoomList = useCallback(
     () => dispatch(fetchRoomListAction()),
     [dispatch]
   )
   useEffect(() => {
     fetchRoomList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Card className={classes.root}>
       <UserAvatarAndName></UserAvatarAndName>
-      <ChatRoomList></ChatRoomList>
+      {chatStep === JOIN_ROOM ? <Messages /> : <ChatRoomList />}
     </Card>
   )
 }
