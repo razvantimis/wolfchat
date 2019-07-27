@@ -7,7 +7,8 @@ export type Coordinates = {
   lng: number
 }
 export type Message = {
-  id?: number,
+  _id: string,
+  isMy: boolean,
   senderName: string,
   message: string,
   timestamp?: Date,
@@ -19,6 +20,7 @@ export type Chatroom = {
   timestamp?: Date,
   messages?: Message[]
 }
+
 type state = { list: Chatroom[], selectedRoom: Chatroom | null }
 const initialState: state = { list: [], selectedRoom: null };
 const roomSlice = createSlice({
@@ -76,7 +78,7 @@ let subListenOnMessageFromRoom: Subscription;
 export const selectedRoom = (selectedRoom: Chatroom) => async (dispatch: any, getState: () => any) => {
   const { user: { username } }: { user: { username: string}} = getState();
   subListenOnMessageFromRoom = FirebaseApi.listenOnMessageFromRoom(selectedRoom).subscribe((messages: Message[]) => {
-    messages = messages.map(m => ({ ...m, id: m.senderName.toLowerCase() === username.toLowerCase() ? 0 : 1 }))
+    messages = messages.map(m => ({ ...m, isMy: m.senderName.toLowerCase() === username.toLowerCase() }))
     dispatch(actions.addMessagesToSelectedRoom({ messages }));
   })
   dispatch(actions.selectedRoom({ selectedRoom }));

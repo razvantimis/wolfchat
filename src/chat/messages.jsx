@@ -5,22 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import React, { useCallback, useState } from 'react';
-import { ChatFeed } from 'react-chat-ui';
+import { ChatFeed } from './chat-feed';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { resetState as resetChatStateAction } from '../redux/chat';
 import { deselectRoom as deselectRoomAction, sendMessage as sendMessageAction } from '../redux/room';
 import type { Chatroom } from '../redux/room';
 
-const bubbleStyles = {
-  text: {
-    fontSize: 14
-  },
-  chatbubble: {
-    borderRadius: 20,
-
-    padding: 15
-  }
-}
 const useStyles = makeStyles(theme => ({
   root: {
     flexDirection: "column",
@@ -84,11 +74,7 @@ export function Messages() {
       <span className={classes.title}>{selectedRoom.name}</span>
     </div>
     <ChatFeed
-      messages={selectedRoom.messages} // Boolean: list of message objects
-      showSenderName // show the name of the user who sent the message
-      // JSON: Custom bubble styles
-      bubbleStyles={
-        bubbleStyles}
+      messages={selectedRoom.messages}
     ></ChatFeed>
     <div className={classes.footer}>
       <TextField

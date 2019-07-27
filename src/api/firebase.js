@@ -16,7 +16,7 @@ export class FirebaseApi {
 
   static listenOnMessageFromRoom(selectedRoom: Chatroom) {
     const ref = firebase.firestore().collection("chats").doc(selectedRoom.id).collection('messages').orderBy('timestamp', 'asc');
-    return collectionData(ref, '_id');
+    return collectionData(ref, 'id');
   }
   static async createRoom(chatRoom: Chatroom) {
     let room = {

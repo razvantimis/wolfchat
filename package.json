@@ -9,7 +9,6 @@
     "flow-bin": "^0.103.0",
     "leaflet": "^1.5.1",
     "react": "^16.8.6",
-    "react-chat-ui": "^0.3.2",
     "react-dom": "^16.8.6",
     "react-leaflet": "^2.4.0",
     "react-redux": "^7.1.0",
